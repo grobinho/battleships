@@ -223,6 +223,7 @@ namespace battleships
             }
 
             if(keepPlaying ==true) PlayGame();
+
         }
 
         public void ResetGrid()
@@ -439,7 +440,6 @@ namespace battleships
 
         public static void CloseGame()
         {
-            //Environment.Exit(0);
             keepPlaying = false;
         }
     }
