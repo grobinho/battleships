@@ -19,6 +19,8 @@ namespace battleships
 
         public string? lastAction;
 
+        public static bool keepPlaying = true;
+
         Field[,] field = new Field[10, 10];
 
         public void Launch(params int[] ships)
@@ -220,7 +222,8 @@ namespace battleships
                 }
             }
 
-            PlayGame();
+            if(keepPlaying ==true) PlayGame();
+
         }
 
         public void ResetGrid()
@@ -437,7 +440,7 @@ namespace battleships
 
         public static void CloseGame()
         {
-            Environment.Exit(0);
+            keepPlaying = false;
         }
     }
 }
