@@ -25,7 +25,14 @@ namespace battleships
                 case "1": // start game
                 {
                     Game game = new();
-                    game.Launch(5, 4, 4);
+                    
+                    var rnd = new Random();
+
+                    int ship1 = rnd.Next(4) + 2;
+                    int ship2 = rnd.Next(4) + 2;
+                    int ship3 = rnd.Next(4) + 2;
+
+                    game.Launch(ship1, ship2, ship3);
                 }
                 break;
                 case "2":

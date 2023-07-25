@@ -419,24 +419,38 @@ namespace battleships
 
             switch (shipSize)
             {
+                case 2:
+                    {
+                        name = "Submarine";
+                    }
+                    break;
+
+                case 3:
+                    {
+                        name = "Cruiser";
+                    }
+                    break;
+
                 case 4:
                     {
-                        name = "Destroyer (4)";
+                        name = "Destroyer";
                     }
                     break;
 
                 case 5:
                     {
-                        name = "Battleship (5)";
+                        name = "Battleship";
                     }
                     break;
 
                 default:
                     {
-                        name = "Unidentified (" + shipSize + ")";
+                        name = "Unidentified";
                     }
                     break;
             }
+
+            name += " (" + shipSize + ")";
 
             return name;
         }
