@@ -144,8 +144,8 @@ namespace battleships
             else
             {
                 Console.WriteLine(lastAction);
-                Console.WriteLine("Other commands: new - for starting a new game; exit - for closing the app;");
                 Console.WriteLine("Select field to bombard (for example: A1):");
+                Console.WriteLine("Other commands: new - for starting a new game; exit - for returning to main menu;");
 
                 string? command = Console.ReadLine();
 
