@@ -1,51 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace battleships
 {
     public class Game
     {
-        private const int maxShips = 3; // creator defined max number of ships to be placed field
-        public int shipsNumber;
-        public int[] hitsCounter = new int[maxShips];
-        public int[] shipSize = new int[maxShips];
-        public int sunkCounter;
+        private const int MaxShips = 5; // creator defined max number of ships to be placed field
+        private int shipsNumber; // stores info how many ships will be in the game
+        private int[] hitsCounter = new int[MaxShips];
+        private int[] shipSize = new int[MaxShips];
+        private int[] shipParam = new int[MaxShips]; // parameter taken from settings/menu to then set ships sizes
+        private int sunkCounter;
+        private string? lastAction;
 
-        public string newBattle = "New Battle has begun!";
-        public string incorrectInput = "Incorrect input - formula for picking field should be: column [A - J], row [1 - 10] (without space), example: A1.";
-
-        public string? lastAction;
-
-        public static bool keepPlaying = true;
+        private static bool keepPlaying = true;
 
         Field[,] field = new Field[10, 10];
 
-        public void Launch(params int[] ships)
+        public Game(params int[] vals)
         {
+            // transferring options data to game
+            for (int i = 0; i < vals.Length; i++)
+            {
+                shipParam[i] = vals[i];
+            }
 
-            // initating fields
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    field[i, j] = new Field(i+1, j+1);
+                    field[i, j] = new Field(i + 1, j + 1);
                 }
-            }
-
-            // getting info about ships
-            shipsNumber = ships.Length;
-            for (int i = 0; i < ships.Length; i++)
-            {
-                shipSize[i] = ships[i];
             }
 
             StartNewGame();
 
             PlayGame();
-
         }
 
         public void StartNewGame()
@@ -53,12 +48,29 @@ namespace battleships
             ResetGrid();
 
             sunkCounter = 0;
+            shipsNumber = 0;
 
-            for(int i = 0; i < shipsNumber; i++)
+            for (int i = 0; i < shipParam.Length; i++)
             {
                 hitsCounter[i] = 0;
 
-                PlaceShip(i, shipSize[i]);
+                if(shipParam[i] > 0 && shipParam[i] < 6)
+                {
+                    shipSize[i] = 0;
+                    shipsNumber++;
+
+                    if (shipParam[i] == 1)
+                    {
+                        var rnd = new Random();
+                        shipSize[i] = rnd.Next(4) + 2;
+                    }
+                    else
+                    {
+                        shipSize[i] = shipParam[i];
+                    }
+
+                    PlaceShip(i, shipSize[i]);
+                }
             }
         }
 
@@ -171,7 +183,7 @@ namespace battleships
                         y = AssignColumn(command[0]);
                     }
 
-                    if (x == -1 || y == -1) lastAction = incorrectInput;
+                    if (x == -1 || y == -1) lastAction = "Incorrect input - formula for picking field should be: column [A - J], row [1 - 10] (without space), example: A1.";
 
                     else // correct input - check field
                     {
@@ -226,6 +238,8 @@ namespace battleships
             {
                 PlayGame();
             }
+
+            keepPlaying = true;
 
         }
 

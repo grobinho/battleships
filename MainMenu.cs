@@ -8,46 +8,38 @@ namespace battleships
 {
     public class MainMenu
     {
+        private static int[] shipParam = { 5, 4, 3, 2, 1 };
+        private static string slotChosen = "0";
+
         public static void ShowMenu()
         {
-            Console.Clear();
-
             DrawLogo();
             Console.WriteLine("Main Menu - type number and press ENTER:");
             Console.WriteLine("1 - PLAY");
-            Console.WriteLine("2 - HELP");
-            Console.WriteLine("3 - QUIT");
+            Console.WriteLine("2 - SETTINGS");
+            Console.WriteLine("3 - HELP");
+            Console.WriteLine("4 - QUIT");
 
-            string? command = Console.ReadLine();
-
-            switch(command)
+            switch(Console.ReadLine())
             {
                 case "1": // start game
                 {
-                    Game game = new();
-                    
-                    var rnd = new Random();
-
-                    int ship1 = rnd.Next(4) + 2;
-                    int ship2 = rnd.Next(4) + 2;
-                    int ship3 = rnd.Next(4) + 2;
-
-                    game.Launch(ship1, ship2, ship3);
+                    Game game = new(shipParam[0], shipParam[1], shipParam[2], shipParam[3], shipParam[4]);
                 }
                 break;
-                case "2":
+                case "2": // get into settings
+                {
+                    GetIntoOptions();
+                }
+                break;
+                case "3": // show some info
                 {
                     ShowAboutInfo();
                 }
                 break;
-                case "3":
+                case "4": // close app
                 {
                     Environment.Exit(0);
-                }
-                break;
-                default:
-                {
-
                 }
                 break;
             }
@@ -57,6 +49,7 @@ namespace battleships
 
         public static void DrawLogo()
         {
+            Console.Clear();
             Console.WriteLine("------------------------------------------------------------------------------------------------------------");
             Console.WriteLine("|  BBBBBB       AA     TTTTTTTT  TTTTTTTT  LL        EEEEEEEE    SSSS    HH    HH  II  PPPPPP      SSSS    |");
             Console.WriteLine("|  BB    BB    A  A       TT        TT     LL        EE        SS    SS  HH    HH  II  PP    P   SS    SS  |");
@@ -72,9 +65,8 @@ namespace battleships
 
         public static void ShowAboutInfo()
         {
-            Console.Clear();
-
-            Console.WriteLine("BATTLESHIPS - HELP\n\n");
+            ShowHeader("HELP");
+            Console.WriteLine("The game resembles battleships baord game:");
             Console.WriteLine("- you will see battlefield as 10 x 10 grid in top part of the console;");
             Console.WriteLine("- there will be randomly placed 3 ships, with every being one from list below:");
             Console.WriteLine("     - Battleship (5 spaces) - most powerful and largest ship;");
@@ -90,6 +82,98 @@ namespace battleships
 
             Console.WriteLine("\n\nPress any key to return to menu.");
             Console.ReadKey();
+        }
+
+        public static void GetIntoOptions()
+        {
+            ShowHeader("SETTINGS");
+
+            Console.WriteLine("Ships configuration on battlefield:\n");
+
+            for (int i = 0; i < shipParam.Length; i++)
+            {
+                switch (shipParam[i])
+                {
+                    case 0:
+                        {
+                            Console.WriteLine($"SLOT {i + 1}: no ship");
+                        }
+                        break;
+                    case 1:
+                        {
+                            Console.WriteLine($"SLOT {i + 1}: random ship");
+                        }
+                        break;
+                    case var _ when shipParam[i] >= 2 && shipParam[i] <= 5:
+                        {
+                            Console.WriteLine($"SLOT {i + 1}: ship with {shipParam[i]} tiles");
+                        }
+                        break;
+                }
+            }
+
+            bool keepSettinging = true;
+            
+            if (slotChosen == "0")
+            {
+                Console.WriteLine("\n\n1 - 5 - choose ship slot to adjust");
+                Console.WriteLine("6 - exit");
+
+                string? command = Console.ReadLine();
+
+                switch (command)
+                {
+                    case var _ when command == "1" || command == "2" || command == "3" || command == "4" || command == "5":
+                    {
+                        slotChosen = command;
+                    }
+                    break;
+                    case "6":
+                    {
+                        keepSettinging = false;
+                    }
+                    break;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"\n\nEditing SLOT {slotChosen}. Please input value you want to assign for:");
+                Console.WriteLine("1 - random");
+                Console.WriteLine("2 - 5 - define ship with such number of fields");
+                Console.WriteLine("6 - return");
+
+                string? command = Console.ReadLine();
+
+                switch (command)
+                {
+                    case var _ when command == "1" || command == "2" || command == "3" || command == "4" || command == "5":
+                    {
+                        if(int.TryParse(command, out int resultValue) && int.TryParse(slotChosen, out int resultSlot))
+                        {
+                            shipParam[resultSlot - 1] = resultValue;
+                        }
+                        slotChosen = "0";
+                    }
+                    break;
+                    case "6":
+                    {
+                        slotChosen = "0";
+                    }
+                    break;
+                }
+            }
+
+            if(keepSettinging)
+            {
+                GetIntoOptions();
+            }
+            
+        }
+
+        private static void ShowHeader(string title)
+        {
+            Console.Clear();
+            Console.WriteLine("BATTLESHIPS - " + title + "\n\n");
         }
     }
 }
