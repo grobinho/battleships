@@ -8,7 +8,7 @@ namespace battleships
 {
     public class MainMenu
     {
-        private static int[] shipParam = { 5, 4, 3, 2, 1 };
+        private static int[] shipParam = { 1, 1, 1, 0, 0 };
         private static string slotChosen = "0";
 
         public static void ShowMenu()
@@ -67,17 +67,21 @@ namespace battleships
         {
             ShowHeader("HELP");
             Console.WriteLine("The game resembles battleships baord game:");
-            Console.WriteLine("- you will see battlefield as 10 x 10 grid in top part of the console;");
-            Console.WriteLine("- there will be randomly placed 3 ships, with every being one from list below:");
-            Console.WriteLine("     - Battleship (5 spaces) - most powerful and largest ship;");
-            Console.WriteLine("     - Destroyer (4 spaces) - slightly smaller but still powerful;");
-            Console.WriteLine("     - Cruiser (3 spaces) - moderately powerful and versatile;");
-            Console.WriteLine("     - Submarine (2 spaces) - smallest but agile and capable of surprise attacks; ");
+            Console.WriteLine("- you will see battlefield as 10 x 10 grid:");
+            Console.WriteLine("     - rows will be numbered in consecutive letters;");
+            Console.WriteLine("     - columns will be numbered in consecutive digits;");
+            Console.WriteLine("- as default setting there will be randomly placed 3 ships, with every having random length;");
+            Console.WriteLine("- ships quantity can be adjusted - with minimum of 1 and maximum of 5;");
+            Console.WriteLine("- ships length can be set as below or set to random (in that second case one from list below will be picked):");
+            Console.WriteLine("     - Battleship (5 fields) - most powerful and largest ship;");
+            Console.WriteLine("     - Destroyer (4 fields) - slightly smaller but still powerful;");
+            Console.WriteLine("     - Cruiser (3 fields) - moderately powerful and versatile;");
+            Console.WriteLine("     - Submarine (2 fields) - smallest but agile and capable of surprise attacks; ");
             Console.WriteLine("- by typing field coordinates in console: column [A - J], row [1 - 10] (without space, for example: B3) and pressing enter you declare to bombard certain field;");
-            Console.WriteLine("- be defualt fields are not bombarded and look like [-];");
+            Console.WriteLine("- at the start of the battle fields are not bombarded and look like [-];");
             Console.WriteLine("- bombarded field where there was not hit ship will be marked as [0];");
             Console.WriteLine("- bombarded field where there was hit ship will be marked as [X];");
-            Console.WriteLine("- you will be notified about result of bombarding: MISS, HIT or SINK;");
+            Console.WriteLine("- you will be notified about result of bombarding: MISS, HIT or SINK (in third scenario you will also get notified about ship's length you sunk);");
             Console.WriteLine("- once you destroy all ships you will get notified about victory and asked if you want to play again or return to main menu.");
 
             Console.WriteLine("\n\nPress any key to return to menu.");
